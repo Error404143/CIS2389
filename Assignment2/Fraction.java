@@ -3,17 +3,17 @@ public class Fraction{
    private int denominator;
    
    public Fraction(int n, int d){
-      //TODO: Finish this constructor
+      numerator = n;
+      denominator = d;
    }
    
    public Fraction(int n){
-      //TODO: Finish this constructor so that n is over 1 for a whole number
+      numerator = n;
+      denominator = 1;
    }
    
-   /*
-     TODO: create the required method so that when 
-     a Fraction object is part of a print() then output
-     is numerator/denominator.
-   */
-   //public...
+    public String toString() {
+      return numerator + "/" + denominator;
+    }
+
 }
