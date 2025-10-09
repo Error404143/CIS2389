@@ -11,18 +11,42 @@ public class Fraction{
    private int denominator;
    
    public Fraction(int n, int d){
-      //TODO: Finish this constructor
+      numerator = n;
+      denominator = d;
    }
-   
+
    public Fraction(int n){
-      //TODO: Finish this constructor so that n is over 1 for a whole number
+     numerator = n;
+     denominator = 1;
+   }
+
+   
+   public String toString() {
+     return numerator + "/" + denominator;
    }
    
-   /*
-     TODO: create the required method so that when 
-     a Fraction object is part of a print() then output
-     is numerator/denominator.
-   */
-   //public...
-      
+   public int getNumerator() {
+      return numerator;
+   }
+
+   public int getDenominator() {
+      return denominator;
+   }
+
+   public void reduce() {
+
+       for (int i = 2; i <= numerator && i <= denominator; i++) {
+          if (numerator % i == 0 && denominator % i == 0) {
+             numerator = numerator / i;
+             denominator = denominator / i;
+             i = 1;
+          }
+       }
+
+       if (denominator < 0) {
+          numerator = -numerator;
+          denominator = -denominator;
+       }
+  }
+   
 }
