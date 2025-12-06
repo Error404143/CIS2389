@@ -2,37 +2,75 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class Canvas{
+public class Canvas {
    protected char[][] canvas;
-   
-   public Canvas(){
-      //TODO Create a constructor that defaults the canvas size to 10 by 10
+
+   public Canvas() {
+      canvas = new char[10][10];
+      fillCanvas();
    }
-   
-   public Canvas(int height, int width){
-      //TODO Create a constructor to set the dimensions based on the values passed to the constructor
+
+   public Canvas(int height, int width) {
+      canvas = new char[height][width];
+      fillCanvas();
    }
-   
-   public void paint(char ch, int row, int col){
-      //TODO set the charactare at the row and col value to the char passed
+
+   private void fillCanvas() {
+      for (int r = 0; r < canvas.length; r++) {
+         for (int c = 0; c < canvas[r].length; c++) {
+            canvas[r][c] = ' ';
+         }
+      }
    }
-   
-   public void paintByInstructions(File f) throws FileNotFoundException{
-      //TODO read the instructions in the file passed and paint based on the values
-      //Each line in the file will be int int char where the first int is the row the second is the col and the char is to be painted at that position
+
+   public void paint(char ch, int row, int col) {
+      if (row >= 0 && row < canvas.length && col >= 0 && col < canvas[row].length) {
+         canvas[row][col] = ch;
+      }
    }
-   
-   public String toString(){
-      //TODO create the string so it prints the canvas "framed" with the "=" sign on top and "|" down the sides
-      // You can look at the ArtDriver file to see example outputs.
-      String result = "";
-      return result;
+
+   public void paintByInstructions(File f) throws FileNotFoundException {
+      Scanner scan = new Scanner(f);
+      while (scan.hasNext()) {
+         int row = scan.nextInt();
+         int col = scan.nextInt();
+         char ch = scan.next().charAt(0);
+         paint(ch, row, col);
+      }
+      scan.close();
    }
-   
-   public void fill(int r, int c, char ch){
-      //TODO: Write a recursive algorithm to fill in the blank spaces with the char given
-      //      beginning at canvas[r][c]. If canvas[r][c] is not blank then the method should
-      //      not change anything.
+
+   public String toString() {
+      StringBuilder sb = new StringBuilder();
+      int width = canvas[0].length;
+
+      sb.append("=".repeat(width + 2)).append("\n");
+      for (int r = 0; r < canvas.length; r++) {
+         sb.append("|");
+         for (int c = 0; c < canvas[r].length; c++) {
+            sb.append(canvas[r][c]);
+         }
+         sb.append("|").append("\n");
+      }
+      sb.append("=".repeat(width + 2));
+
+      return sb.toString();
    }
+   public void fill(int r, int c, char ch) {
+    if (r < 0 || r >= canvas.length || c < 0 || c >= canvas[r].length) {
+        return;
+    }
+
+    if (canvas[r][c] != ' ') {
+        return;
+    }
+
+    canvas[r][c] = ch;
+
+    fill(r - 1, c, ch); 
+    fill(r + 1, c, ch); 
+    fill(r, c - 1, ch); 
+    fill(r, c + 1, ch); 
+}
 
 }
